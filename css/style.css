@@ -1,0 +1,130 @@
+:root {
+    --titles: 'Anton', sans-serif;
+    --normal-text: 'Manrope', sans-serif;
+}
+
+body {
+    /* margin: 0 auto; */
+    box-sizing: border-box;
+    width: 100vw;
+    height: fit-content;
+    font-family: var(--normal-text);
+}
+
+header {
+    width: 100%;
+    /* height: 960px; */
+    height: 666px;
+
+    /** background image */
+    background: url(../img/lampos-aritonang-24gR_9lCdes-unsplash\ 1.png);
+    background-repeat: no-repeat;
+}
+
+header h1 {
+    font-family: var(--titles);
+    color: #FFD15B;
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 66.24px;
+    text-align: center;
+    width: 890px;
+    /** adjusting dimensions*/
+    margin-top: -50px; /*~ lifting title up :*/
+    padding-bottom: 30px; /*~ pushing search bar back done since it lifts up too :*/
+}
+
+.logo {
+    width: fit-content;
+    padding: 45px 70px;
+}
+
+.header--search {
+    width: 100%;
+    /* text-align: center; */
+    /*~ replaced by :*/
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+}
+
+.header--search input[type=text] {
+    width: 954px;
+    height: 72px;
+    border: none;
+    border-radius: 5px;
+}
+
+main {
+    width: 100%;
+    background-color: #EDEDED;
+    margin: 0 auto;
+}
+
+main section {
+    width: 90%;
+    margin: 0 auto;
+}
+
+main .filters {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    height: 100px;
+    align-content: center;
+}
+
+main .filters div h3 {
+    background-color: white;
+    padding: 17px 16px;
+    border-radius: 11px;
+}
+
+main .filters p {
+    padding: 15px;
+}
+
+main .recipe-card {
+    height: 731px;
+    width: 330px; /*~ 380px - 50px bc of padding on FIGMA*/
+    border-radius: 21px;
+    position: relative;
+    background-color: white;
+    margin-bottom: 45px;
+}
+
+main .results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.recipe-card  {
+    position: relative;
+}
+
+.recipe-card .recipe-img{
+    /* width: -webkit-fill-available; */
+    width: 330px;
+    height: 253px;
+    border-radius: 21px;
+}
+
+.recipe-card .recipe-time {
+    padding: 7px;
+    background-color: #FFD15B;
+    border-radius: 14px;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.recipe-card h4 {
+    font-family: var(--titles);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 27.1px;
+}
