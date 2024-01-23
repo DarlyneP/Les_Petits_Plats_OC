@@ -85,6 +85,10 @@ header h1 {
     margin-left: -5px;
 }
 
+.header--search form .button--wrapper button:hover {
+    cursor: pointer;
+}
+
 .header--search form button img {
     border-radius: 5px;
 }
