@@ -58,6 +58,11 @@ header h1 {
     border-radius: 5px;
 }
 
+header .searchbar {
+    /*background: url(../img/icons/Search.svg);*/ /*~ insert search icon in search bar?*/
+    /* background-repeat: no-repeat; */
+}
+
 main {
     width: 100%;
     background-color: #EDEDED;
@@ -69,12 +74,24 @@ main section {
     margin: 0 auto;
 }
 
+main .search-details {
+    height: 100px;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
 main .filters {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    height: 100px;
+    height: 100%;
     align-content: center;
+    width: 40%;
+    justify-content: space-between;
 }
 
 main .filters div h3 {
@@ -83,8 +100,12 @@ main .filters div h3 {
     border-radius: 11px;
 }
 
-main .filters p {
+main .search-details .total-found {
     padding: 15px;
+    font-family: var(--titles);
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 31.61px;
 }
 
 main .recipe-card {
@@ -109,22 +130,72 @@ main .results {
 .recipe-card .recipe-img{
     /* width: -webkit-fill-available; */
     width: 330px;
-    height: 253px;
-    border-radius: 21px;
+    /* height: 253px; */
+    height: 228px; /*~ removed 25px for css optimization in regards to figma model*/
+    border-radius: 21px 21px 0 0;
 }
 
 .recipe-card .recipe-time {
     padding: 7px;
+    margin: 20px;
     background-color: #FFD15B;
     border-radius: 14px;
     position: absolute;
     top: 0;
     right: 0;
+    font-size: 12px;
+    line-height: 16.39px;
+    font-weight: 400;
 }
 
-.recipe-card h4 {
+.recipe-content {
+    padding: 15px;
+}
+
+.recipe-content h4 {
     font-family: var(--titles);
     font-weight: 400;
     font-size: 18px;
     line-height: 27.1px;
+}
+
+.recipe-content h5 {
+    font-family: var(--titles);
+    font-weight: 700;
+    font-size: 12px;
+    line-height: 16.39px;
+    color: #7A7A7A;
+    letter-spacing: 3px; /*~ equals letter 9% on figma? need to reverify css property*/
+}
+
+.recipe-content .recipe-description {
+    font-size: 14px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    line-height: 19.12px;
+}
+
+.recipe-content .ingredients-table {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 10px;
+}
+
+.recipe-content .ingredients-table .ingredient {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 50%;
+    margin-bottom: 20px;
+}
+
+.recipe-content .ingredients-table .ingredient p {
+    /* font-size: 14px; */
+    font-size: 13px; /*~ optimizing space on the card*/
+    font-weight: 500;
+}
+
+.recipe-content .ingredients-table .ingredient .ingredient-quantity {
+    color: #7A7A7A;
+    font-weight: 400;
 }
