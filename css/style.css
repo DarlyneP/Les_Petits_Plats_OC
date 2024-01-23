@@ -65,14 +65,6 @@ header h1 {
     padding-left: 30px;
 }
 
-.header--search input[type=submit] {
-    background-color: #1B1B1B;
-    background: url(../img/icons/Search.svg); /*~ insert search icon in search bar?*/
-    background-repeat: no-repeat;
-    width: 44px;
-    border: solid 4px white;
-}
-
 .header--search form .button--wrapper {
     width: 54px;
     border: solid 4px white;
