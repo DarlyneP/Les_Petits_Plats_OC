@@ -25,8 +25,6 @@ function findRecipes(searchInput) {
                     results.push(recipe)
                 }
             }
-
-            //! remplacer le if précédent par un if else dont la première étape fait && avec recipe name + un exit si concluant, & le else if prend en charge recipe name le cas échéant
         }
     }
     return results
