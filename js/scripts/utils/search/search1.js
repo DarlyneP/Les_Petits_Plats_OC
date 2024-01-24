@@ -7,21 +7,18 @@ function findRecipes(searchInput) {
     for (let index = 0; index < recipes.length; index++) {
         const recipe = recipes[index];
         const ingredients = recipe.ingredients
-        /*if (recipe.name.includes(searchInput)) {
-            results.push(recipe)
-        }*/
         for (let ingredientIndex = 0; ingredientIndex < ingredients.length; ingredientIndex++) {
             const ingredient = ingredients[ingredientIndex].ingredient;
-            if (ingredient.includes(searchInput) && recipe.name.includes(searchInput)) {
+            if (ingredient.toLowerCase().includes(searchInput.toLowerCase()) && recipe.name.toLowerCase().includes(searchInput.toLowerCase())) {
                 results.push(recipe)
                 continue;
-            } else if (recipe.name.includes(searchInput)) {
+            } else if (recipe.name.toLowerCase().includes(searchInput.toLowerCase())) {
                 if (results.includes(recipe)) {
                     continue;
                 } else {
                     results.push(recipe)
                 }
-            } else if (ingredient.includes(searchInput)) {
+            } else if (ingredient.toLowerCase().includes(searchInput.toLowerCase())) {
                 if (results.includes(recipe)) {
                     continue;
                 } else {
