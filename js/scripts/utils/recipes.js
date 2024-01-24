@@ -56,7 +56,7 @@ function createRecipeCard(recipe) {
         ingredientQuantity.classList.add('ingredient-quantity')
         if (!ingredient.unit) {
             ingredientQuantity.textContent = `${ingredient.quantity}`  
-        } else {
+        } else if (ingredient.quantity) {
             ingredientQuantity.textContent = `${ingredient.quantity}${ingredient.unit}`
         }
         ingredientSlot.appendChild(ingredientName)
