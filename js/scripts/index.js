@@ -1,7 +1,8 @@
 console.log('Welcome to Les Petits Plats')
 
 import { loadAllRecipes, loadResults } from "./utils/recipes.js";
-import { findRecipes } from "./utils/search/search1.js"
+//import { findRecipes } from "./utils/search/search1.js"
+import { findRecipes } from "./utils/search/search2.js"
 
 //~ Initializing homepage (filling it with all recipes)
 loadAllRecipes()
