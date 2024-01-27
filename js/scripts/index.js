@@ -20,10 +20,13 @@ function emptyResultSection() {
 }
 
 //~ Lauching a recipe search
+//^ With the search button
 const searchButton = document.querySelector('.button--wrapper button')
 searchButton.addEventListener("click", launchSearch)
 function launchSearch(event) {
-    event.preventDefault()
+    if (event != undefined) {
+        event.preventDefault()   
+    }
     console.log('Launching a recipe search right now');
     const searchBar = document.querySelector('.searchbar')
     const searchInput = searchBar.value
@@ -35,3 +38,12 @@ function launchSearch(event) {
     emptyResultSection()
     loadResults(results)
 }
+
+//^ With typing only
+const searchBar = document.querySelector('.searchbar')
+searchBar.addEventListener("keydown", () => {
+    const searchInput = searchBar.value
+    if (searchInput.length >= 3) {
+        launchSearch()
+    }
+}) 
