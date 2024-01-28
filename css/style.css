@@ -125,7 +125,7 @@ main .filters {
     flex-direction: row;
     height: 100%;
     align-content: center;
-    width: 40%;
+    width: 55%;
     justify-content: space-between;
 }
 
@@ -133,6 +133,14 @@ main .filters div h3 {
     background-color: white;
     padding: 17px 16px;
     border-radius: 11px;
+}
+
+main .filters span img {
+    margin-left: 63px;
+}
+
+main .filters span img:hover {
+    cursor: pointer;
 }
 
 main .search-details .total-found {

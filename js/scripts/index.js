@@ -46,4 +46,8 @@ searchBar.addEventListener("keydown", () => {
     if (searchInput.length >= 3) {
         launchSearch()
     }
-}) 
+})
+
+//~ Tag search
+// todo : display on click
+// todo : activate keydown search
