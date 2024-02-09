@@ -52,13 +52,25 @@ searchBar.addEventListener("keydown", () => {
 // todo : display on click
 function displayTagSearch() {
     const displayArrows = document.querySelectorAll('h3 span img')
-    for(const arrow of displayArrows) {
+    for (const arrow of displayArrows) {
         console.log(arrow)
         console.log(arrow.parentElement.parentElement.parentElement.childNodes)
         console.log(arrow.parentElement.parentElement.parentElement.children)
         console.log(arrow.parentElement.parentElement.parentElement.children[1])
-        arrow.addEventListener("click", () => {
-            arrow.style.display = "flex"
+        //const tagSearchArea = arrow.parentElement.parentElement.parentElement.children[1]
+        //console.log(tagSearchArea);
+        arrow.addEventListener("click", (event) => {
+            // const tagSearchArea = event.parentElement.parentElement.parentElement.children[1]
+            const h3Area = event.currentTarget.parentElement.parentElement
+            const tagSearchArea = event.currentTarget.parentElement.parentElement.parentElement.children[1]
+            if (tagSearchArea.style.display === "none" || tagSearchArea.style.display === "" || tagSearchArea.style.display === undefined) {
+                console.log('none')
+                tagSearchArea.style.display = "flex"
+                h3Area.style.borderRadius = "11px 11px 0 0"
+            } else if (tagSearchArea.style.display === "flex") {
+                tagSearchArea.style.display = "none"
+                h3Area.style.borderRadius = "11px"
+            }
         })
     }
 }

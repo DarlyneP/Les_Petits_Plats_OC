@@ -147,6 +147,10 @@ main .filters .filter .filter--search__unroll {
     background-color: white;
     border-radius: 0 0 10px 10px;
     display: none;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 5px;
 }
 
 main .search-details .total-found {
