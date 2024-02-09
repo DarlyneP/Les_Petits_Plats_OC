@@ -143,6 +143,12 @@ main .filters span img:hover {
     cursor: pointer;
 }
 
+main .filters .filter .filter--search__unroll {
+    background-color: white;
+    border-radius: 0 0 10px 10px;
+    display: none;
+}
+
 main .search-details .total-found {
     padding: 15px;
     font-family: var(--titles);

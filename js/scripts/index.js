@@ -50,4 +50,18 @@ searchBar.addEventListener("keydown", () => {
 
 //~ Tag search
 // todo : display on click
+function displayTagSearch() {
+    const displayArrows = document.querySelectorAll('h3 span img')
+    for(const arrow of displayArrows) {
+        console.log(arrow)
+        console.log(arrow.parentElement.parentElement.parentElement.childNodes)
+        console.log(arrow.parentElement.parentElement.parentElement.children)
+        console.log(arrow.parentElement.parentElement.parentElement.children[1])
+        arrow.addEventListener("click", () => {
+            arrow.style.display = "flex"
+        })
+    }
+}
+
+displayTagSearch()
 // todo : activate keydown search
