@@ -86,21 +86,40 @@ function loadAllRecipes() {
     let allIngredients = [];
     let allAppliances = [];
     let allUstensils = [];
+    let foundRecipes = [];
     for (const recipe of recipes) {
         const { id, image, name, servings, ingredients, time, description, appliance, ustensils } = recipe
-        //~ Creating recipe card
+        //~ Creating recipe card & saving the recipe
         createRecipeCard(recipe)
+        foundRecipes.push(recipe)
 
         //~ Storing data for the tag search
-        allIngredients.push(ingredients)
+        //allIngredients.push(ingredients)
+        for (const ingredient of ingredients) {
+            /*if (allIngredients.filter((element) => element.toLowerCase().includes(ingredient.ingredient.toLowerCase())).length < 1) {
+                allIngredients.push(ingredient.ingredient)
+                
+            }*/
+            if (allIngredients.filter((element) => element.toLowerCase() == ingredient.ingredient.toLowerCase()).length < 1) {
+                allIngredients.push(ingredient.ingredient)
+                
+            }
+
+        }
+
         allAppliances.push(appliance)
-        allUstensils.push(ustensils)
+
+        //allUstensils.push(ustensils)
+        for (const ustensil of ustensils) {
+            allUstensils.push(ustensil)
+        }
 
     }
     //~ Making the data accessible
-    localStorage.setItem("allIngredients", allIngredients)
-    localStorage.setItem("allAppliances", allAppliances)
-    localStorage.setItem("allUstensils", allUstensils)
+    localStorage.setItem("foundRecipes", JSON.stringify(foundRecipes))
+    localStorage.setItem("allIngredients", JSON.stringify(allIngredients))
+    localStorage.setItem("allAppliances", JSON.stringify(allAppliances))
+    localStorage.setItem("allUstensils", JSON.stringify(allUstensils))
 }
 
 function loadResults(results) {

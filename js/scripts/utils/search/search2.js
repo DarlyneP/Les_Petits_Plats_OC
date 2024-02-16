@@ -26,6 +26,8 @@ function findRecipes(searchInput) {
     }).filter((recipe) => recipe !== undefined)
     console.log(results)
 
+    localStorage.foundRecipes = JSON.stringify(results)
+
     return results
 }
 
