@@ -54,13 +54,7 @@ function displayTagSearch() {
     const displayArrows = document.querySelectorAll('h3 span img')
     for (const arrow of displayArrows) {
         console.log(arrow)
-        console.log(arrow.parentElement.parentElement.parentElement.childNodes)
-        console.log(arrow.parentElement.parentElement.parentElement.children)
-        console.log(arrow.parentElement.parentElement.parentElement.children[1])
-        //const tagSearchArea = arrow.parentElement.parentElement.parentElement.children[1]
-        //console.log(tagSearchArea);
         arrow.addEventListener("click", (event) => {
-            // const tagSearchArea = event.parentElement.parentElement.parentElement.children[1]
             const h3Area = event.currentTarget.parentElement.parentElement
             const tagSearchArea = event.currentTarget.parentElement.parentElement.parentElement.children[1]
             if (tagSearchArea.style.display === "none" || tagSearchArea.style.display === "" || tagSearchArea.style.display === undefined) {
@@ -77,3 +71,16 @@ function displayTagSearch() {
 
 displayTagSearch()
 // todo : activate keydown search
+const tagSearchInputs = document.querySelectorAll('.filter--search__unroll input')
+for (const input of tagSearchInputs) {
+    input.addEventListener("keydown", tagSearch)
+}
+function tagSearch(event) {
+    console.log(event.currentTarget) //* control check
+    const tagSearchInput = event.currentTarget.value
+    console.log(tagSearchInput)
+    launchTagSearch(tagSearchInput)
+}
+function launchTagSearch(tagSearchInput) {
+    console.log(tagSearchInput) 
+}

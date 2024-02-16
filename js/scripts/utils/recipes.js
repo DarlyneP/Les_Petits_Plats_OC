@@ -82,11 +82,25 @@ function createRecipeCard(recipe) {
 }
 
 function loadAllRecipes() {
+    //~ Creating variables for the tag search
+    let allIngredients = [];
+    let allAppliances = [];
+    let allUstensils = [];
     for (const recipe of recipes) {
+        const { id, image, name, servings, ingredients, time, description, appliance, ustensils } = recipe
+        //~ Creating recipe card
         createRecipeCard(recipe)
 
-        //~
+        //~ Storing data for the tag search
+        allIngredients.push(ingredients)
+        allAppliances.push(appliance)
+        allUstensils.push(ustensils)
+
     }
+    //~ Making the data accessible
+    localStorage.setItem("allIngredients", allIngredients)
+    localStorage.setItem("allAppliances", allAppliances)
+    localStorage.setItem("allUstensils", allUstensils)
 }
 
 function loadResults(results) {
