@@ -120,6 +120,9 @@ function loadAllRecipes() {
     localStorage.setItem("allIngredients", JSON.stringify(allIngredients))
     localStorage.setItem("allAppliances", JSON.stringify(allAppliances))
     localStorage.setItem("allUstensils", JSON.stringify(allUstensils))
+
+    //~ Displaying total recipe count
+    loadRecipeCount(recipes)
 }
 
 function loadResults(results) {
@@ -128,4 +131,17 @@ function loadResults(results) {
     }
 }
 
-export { loadAllRecipes, loadResults }
+function loadRecipeCount(results) {
+    const recipeCount = document.querySelector('.total-found')
+    recipeCount.textContent = `${results.length} recette(s)`;
+}
+
+function loadNoResultsFound(searchInput) {
+    const recipesSection = document.querySelector('.results')
+    const errorMessage = document.createElement('p')
+    errorMessage.textContent = `Aucune recette ne contient ‘ ${searchInput} ’ vous pouvez chercher «
+    tarte aux pommes », « poisson », etc.`;
+    recipesSection.appendChild(errorMessage)
+}
+
+export { loadAllRecipes, loadResults, loadNoResultsFound, loadRecipeCount }

@@ -1,6 +1,6 @@
 console.log('Welcome to Les Petits Plats')
 
-import { loadAllRecipes, loadResults } from "./utils/recipes.js";
+import { loadAllRecipes, loadResults, loadNoResultsFound, loadRecipeCount } from "./utils/recipes.js";
 //import { findRecipes } from "./utils/search/search1.js"
 import { findRecipes } from "./utils/search/search2.js"
 //import { recipeTagSorting } from "./utils/search/tagSearch.js";
@@ -34,11 +34,14 @@ function launchSearch(event) {
     const searchInput = searchBar.value
     //findRecipes(searchInput)
     const results = findRecipes(searchInput)
-    /*if (results) {
-        
-    }*/
     emptyResultSection()
-    loadResults(results)
+    if (results.length != 0) {
+        loadResults(results)
+        
+    } else {
+        loadNoResultsFound(searchInput)
+    }
+    loadRecipeCount(results)
 }
 
 //^ With typing only
@@ -78,7 +81,7 @@ for (const input of tagSearchInputs) {
     input.addEventListener("keydown", tagSearch)
 }
 function eventKeyCheck(eventKey) { //! start again from here to fix display of tag suggestion issue
-    if (eventKey.toLowerCase().match('/^[a-z]{1}/')) {
+    if (eventKey.toLowerCase().match(/^[a-z]{1}/) && eventKey !== 'Backspace') {
         return true
     } else {
         return false
