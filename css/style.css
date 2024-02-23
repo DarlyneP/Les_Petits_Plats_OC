@@ -110,13 +110,14 @@ main section {
 }
 
 main .search-details {
-    height: 100px;
+    /* height: 100px; */
     width: 90%;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    padding: 15px 0;
 }
 
 main .filters {
@@ -127,6 +128,9 @@ main .filters {
     align-content: center;
     width: 55%;
     justify-content: space-between;
+
+    position: relative;
+    z-index: 10;
 }
 
 main .filters div h3 {
@@ -149,8 +153,44 @@ main .filters .filter .filter--search__unroll {
     display: none;
     flex-direction: column;
     flex-wrap: wrap;
+    /* align-items: center;
+    padding: 5px; */
+    /* align-items: flex-start;
+    padding: 0 20px; */
+}
+
+main .filters .filter .filter--search__unroll input[type=text] {
+    /* width: 95%; */
+    width: 81%;
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+main .filters .filter .filter--search__unroll ul {
+    width: 100%;
+}
+
+main .filters .filter .filter--search__unroll ul li {
+    height: 35px;
+    display: flex;
     align-items: center;
-    padding: 5px;
+    padding-left: 15px;
+}
+
+main .filters .filter .filter--search__unroll ul li:hover {
+    background-color: #FFD15B;
+}
+
+main .filters .filter .used_tags {
+    margin-top: 10px;
+}
+
+main .filters .filter .used_tags .used_tag {
+    background-color: #FFD15B;
+    border-radius: 9px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
 }
 
 main .search-details .total-found {
@@ -159,6 +199,7 @@ main .search-details .total-found {
     font-weight: 400;
     font-size: 21px;
     line-height: 31.61px;
+    align-self: flex-start;
 }
 
 main .recipe-card {
