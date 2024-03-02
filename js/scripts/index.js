@@ -241,7 +241,9 @@ function recipeTagSorting(event) {
     //setupUsedTag(deleteTagSpan)
     tagToAdd.appendChild(deleteTagSpan)
     usedTagsList.appendChild(tagToAdd)
-    deleteTagSpan.outerHTML = "<svg width=\"14\" height=\"13\" viewBox=\"0 0 14 13\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"delete--tag\">\n<path d=\"M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5\" stroke=\"#1B1B1B\" stroke-width=\"2.16667\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n</svg>"
+    //deleteTagSpan.innerHTML = `<path d="M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5" stroke="#1B1B1B" stroke-width="2.16667" stroke-linecap="round" stroke-linejoin="round"></path>`
+    deleteTagSpan.outerHTML = "<svg width=\"14\" height=\"13\" viewBox=\"0 0 14 13\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"delete--tag\">\n<path d=\"M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5\" stroke=\"#1B1B1B\" stroke-width=\"2.16667\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"path\"></path>\n</svg>"
+    //deleteTagSpan.outerHTML = "<svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"delete--tag\">\n<path d=\"M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5\" stroke=\"#1B1B1B\" stroke-width=\"2.16667\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n</svg>"
     //deleteTagSpan.classList.add('delete--tag') //! n'ajoute pas la classe sur l'élément, semble être overridé par outerHTML
     setupUsedTag(deleteTagSpan)
     deleteTagSpan.addEventListener("mouseover", deleteTagConfirm)

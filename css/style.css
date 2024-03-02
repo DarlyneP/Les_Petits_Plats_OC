@@ -191,11 +191,35 @@ main .filters .filter .used_tags .used_tag {
     padding: 15px;
     display: flex;
     justify-content: space-between;
+    margin: 5px 0;
 }
 
 main .filters .filter .used_tags .used_tag .delete--tag:hover {
     cursor: pointer;
+    /*test*/
+    border-radius: 50%;
+    background-color: black;
+    /*end of test*/
 }
+
+main .filters .filter .used_tags .used_tag .delete--tag:hover .path {
+    cursor: pointer;
+    /*test*/
+    border-radius: 50%;
+    background-color: black;
+    /*end of test*/
+    stroke: #FFD15B;
+}
+
+/*
+.path:hover .used_tag {
+    font-weight: 700;
+}
+
+main .filters .filter .used_tags .used_tag .delete--tag path[d]:hover {
+    d: M11 11L8.5 8.5M8.5 8.5L6 6M8.5 8.5L11 6M8.5 8.5L6 11;
+}
+*/
 
 main .search-details .total-found {
     padding: 15px;
