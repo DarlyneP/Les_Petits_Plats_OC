@@ -4,7 +4,7 @@ import { loadAllRecipes, loadResults, loadNoResultsFound, loadRecipeCount } from
 //import { findRecipes } from "./utils/search/search1.js"
 import { findRecipes } from "./utils/search/search2.js"
 //import { recipeTagSorting } from "./utils/search/tagSearch.js";
-import { sortRecipes, tagSearchClear, setupUsedTag, deleteTagConfirm, deleteUsedTag } from "./utils/search/tagSearch.js";
+import { sortRecipes, tagSearchClear, setupUsedTag, deleteTagConfirm, deleteUsedTag, deleteUsedTag2 } from "./utils/search/tagSearch.js";
 
 //~ Initializing homepage (filling it with all recipes)
 loadAllRecipes()
@@ -138,7 +138,16 @@ function launchTagSearch(tagSearchInput, type) {
             displaySuggestions(foundIngredients, type)
             break;
         case "appliance":
-
+            let allAppliances = JSON.parse(localStorage.allAppliances)
+            let foundAppliances = [];
+            for (const appliance of allAppliances) {
+                if (appliance.toLowerCase().includes(tagSearchInput.toLowerCase())) {
+                    if (!foundAppliances.includes(appliance)) {
+                        foundAppliances.push(appliance)
+                        
+                    }
+                }
+            }
             break;
         case "ustensils":
             let allUstensils = JSON.parse(localStorage.allUstensils)
@@ -180,7 +189,8 @@ function displaySuggestions(result, type) {
                     liElement.classList.add('suggestion')
                     liElement.textContent = `${suggestion}`;
                     taglist.append(liElement)
-                    liElement.addEventListener("click", recipeTagSorting)
+                    //liElement.addEventListener("click", recipeTagSorting)
+                    liElement.addEventListener("click", recipeTagSorting2)
                 }  
             } else {
                 const liElement = document.createElement('li')
@@ -188,12 +198,37 @@ function displaySuggestions(result, type) {
                 liElement.classList.add('suggestion')
                 liElement.textContent = `${suggestion}`;
                 taglist.append(liElement)
-                liElement.addEventListener("click", recipeTagSorting)
+                //liElement.addEventListener("click", recipeTagSorting)
+                liElement.addEventListener("click", recipeTagSorting2)
             }
         }
+
     } else if (type === 'appliances') {
         suggestions = JSON.parse(localStorage.foundAppliances)
         console.log(suggestions)
+        for (const suggestion of suggestions) {
+            if (availableSuggestions.length > 0) {
+                if (availableSuggestions.filter( element => element.firstChild.data /* equals element.textContent*/ == suggestion ).length > 0) {
+                    continue;
+                } else {
+                    const liElement = document.createElement('li')
+                    liElement.classList.add(`${type}`)
+                    liElement.classList.add('suggestion')
+                    liElement.textContent = `${suggestion}`;
+                    taglist.append(liElement)
+                    //liElement.addEventListener("click", recipeTagSorting)
+                    liElement.addEventListener("click", recipeTagSorting2)
+                }
+            } else {
+                const liElement = document.createElement('li')
+                liElement.classList.add(`${type}`)
+                liElement.classList.add('suggestion')
+                liElement.textContent = `${suggestion}`;
+                taglist.append(liElement)
+                //liElement.addEventListener("click", recipeTagSorting)
+                liElement.addEventListener("click", recipeTagSorting2)
+            }
+        }
         
     } else if (type === 'ustensils') {
         suggestions = JSON.parse(localStorage.foundUstensils)
@@ -208,7 +243,8 @@ function displaySuggestions(result, type) {
                     liElement.classList.add('suggestion')
                     liElement.textContent = `${suggestion}`;
                     taglist.append(liElement)
-                    liElement.addEventListener("click", recipeTagSorting)
+                    //liElement.addEventListener("click", recipeTagSorting)
+                    liElement.addEventListener("click", recipeTagSorting2)
                 }
             } else {
                 const liElement = document.createElement('li')
@@ -216,7 +252,8 @@ function displaySuggestions(result, type) {
                 liElement.classList.add('suggestion')
                 liElement.textContent = `${suggestion}`;
                 taglist.append(liElement)
-                liElement.addEventListener("click", recipeTagSorting)
+                //liElement.addEventListener("click", recipeTagSorting)
+                liElement.addEventListener("click", recipeTagSorting2)
             }
         }
     }
@@ -247,15 +284,46 @@ function recipeTagSorting(event) {
     //deleteTagSpan.classList.add('delete--tag') //! n'ajoute pas la classe sur l'élément, semble être overridé par outerHTML
     setupUsedTag(deleteTagSpan)
     deleteTagSpan.addEventListener("mouseover", deleteTagConfirm)
-    deleteTagSpan.addEventListener("click", deleteUsedTag)
+    deleteTagSpan.addEventListener("click", deleteUsedTag2)
+    // deleteTagSpan.addEventListener("click", deleteUsedTag)
 
     //! Recreating the svg element to add event listeners on it because ever since outerHTML has been added to the former svg element, adding events is impossible & this, regardless of if events are added before or after outerHTML is used.
     const sameTagElement = tagToAdd.getElementsByClassName('delete--tag')
     sameTagElement[0].addEventListener("mouseover", deleteTagConfirm)
     sameTagElement[0].addEventListener("mouseout", deleteTagConfirm)
-    sameTagElement[0].addEventListener("click", deleteUsedTag)
+    sameTagElement[0].addEventListener("click", deleteUsedTag2)
+    //sameTagElement[0].addEventListener("click", deleteUsedTag)
     //deleteTagSpan.addEventListener("mouseover", deleteTagConfirm())
     //deleteTagSpan.addEventListener("click", deleteUsedTag())
+
+    //~ Sorting recipes based upon tag selection
+    const selected = event.currentTarget.textContent
+    const selectedType = event.currentTarget.classList[0]
+    const results = sortRecipes(selected, selectedType)
+
+    emptyResultSection()
+    loadResults(results)
+    loadRecipeCount(results)
+}
+
+function recipeTagSorting2(event) {
+    //~ Adding tag to used tags list, 2nd method
+    const usedTagsList = document.querySelector('.unique--Ut_list')
+    const tagToAdd = document.createElement('li')
+    tagToAdd.classList.add('used_tag')
+    tagToAdd.textContent = `${event.currentTarget.textContent}`;
+    const deleteTagSpan = document.createElement('svg')
+    tagToAdd.appendChild(deleteTagSpan)
+    usedTagsList.appendChild(tagToAdd)
+    deleteTagSpan.outerHTML = "<svg width=\"14\" height=\"13\" viewBox=\"0 0 14 13\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"delete--tag\">\n<path d=\"M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5\" stroke=\"#1B1B1B\" stroke-width=\"2.16667\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"path\"></path>\n</svg>"
+    setupUsedTag(deleteTagSpan)
+    deleteTagSpan.addEventListener("mouseover", deleteTagConfirm)
+    deleteTagSpan.addEventListener("click", deleteUsedTag)
+
+    const sameTagElement = tagToAdd.getElementsByClassName('delete--tag')
+    sameTagElement[0].addEventListener("mouseover", deleteTagConfirm)
+    sameTagElement[0].addEventListener("mouseout", deleteTagConfirm)
+    sameTagElement[0].addEventListener("click", deleteUsedTag)
 
     //~ Sorting recipes based upon tag selection
     const selected = event.currentTarget.textContent

@@ -27,7 +27,7 @@ function sortRecipes(selected, selectedType) {
             case "appliance":
                 const appliance = recipe.appliance
                 if (appliance.toLowerCase().includes(selected.toLowerCase())) {
-                        return recipe
+                    return recipe
                 }
                 break;
             case "ustensils":
@@ -71,7 +71,8 @@ function setupUsedTag(tagElement) {
     //tagElement.classList.add('delete--tag') //! n'ajoute pas la classe sur l'élément, semble être overridé par outerHTML
     tagElement.addEventListener("mouseover", deleteTagConfirm)
     tagElement.addEventListener("mouseout", deleteTagConfirm)
-    tagElement.addEventListener("click", deleteUsedTag)
+    tagElement.addEventListener("click", deleteUsedTag2)
+    // tagElement.addEventListener("click", deleteUsedTag)
 }
 
 function deleteTagConfirm(event) {
@@ -96,7 +97,8 @@ function deleteTagConfirm(event) {
         //event.currentTarget.addEventListener("mouseover", deleteTagConfirm)
         sameTagElement.addEventListener("mouseout", deleteTagConfirm)
         //event.currentTarget.addEventListener("mouseout", deleteTagConfirm)
-        sameTagElement.addEventListener("click", deleteUsedTag)
+        sameTagElement.addEventListener("click", deleteUsedTag2)
+        // sameTagElement.addEventListener("click", deleteUsedTag)
         //event.currentTarget.addEventListener("click", deleteUsedTag)
         //sameTagElement[0].addEventListener("mouseout", deleteTagConfirm)
         //sameTagElement[0].addEventListener("click", deleteUsedTag)
@@ -120,7 +122,8 @@ function deleteTagConfirm(event) {
         const sameTagElement = saveParentElement.lastChild
         sameTagElement.addEventListener("mouseover", deleteTagConfirm)
         sameTagElement.addEventListener("mouseout", deleteTagConfirm)
-        sameTagElement.addEventListener("click", deleteUsedTag)
+        sameTagElement.addEventListener("click", deleteUsedTag2)
+        // sameTagElement.addEventListener("click", deleteUsedTag)
         //event.srcElement.addEventListener("mouseover", deleteTagConfirm)
         //event.srcElement.addEventListener("mouseout", deleteTagConfirm)
         //event.srcElement.addEventListener("click", deleteUsedTag)
@@ -138,4 +141,14 @@ function deleteUsedTag(event) {
     usedTagsList.removeChild(liElement)
 }
 
-export { recipeTagSorting, sortRecipes, tagSearchClear, setupUsedTag, deleteTagConfirm, deleteUsedTag };
+function deleteUsedTag2(event) {
+    const deleteLiElement = event.srcElement
+    console.log(deleteLiElement);
+    const liElement = deleteLiElement.parentElement // deleteLiElement.parentNode also works
+    const usedTagsList = liElement.parentElement // deleteLiElement.parentNode also works
+    console.log(liElement);
+    console.log(usedTagsList);
+    usedTagsList.removeChild(liElement)
+}
+
+export { recipeTagSorting, sortRecipes, tagSearchClear, setupUsedTag, deleteTagConfirm, deleteUsedTag, deleteUsedTag2 };
