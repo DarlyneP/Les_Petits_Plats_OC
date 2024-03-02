@@ -4,7 +4,7 @@ import { loadAllRecipes, loadResults, loadNoResultsFound, loadRecipeCount } from
 //import { findRecipes } from "./utils/search/search1.js"
 import { findRecipes } from "./utils/search/search2.js"
 //import { recipeTagSorting } from "./utils/search/tagSearch.js";
-import { sortRecipes, tagSearchClear } from "./utils/search/tagSearch.js";
+import { sortRecipes, tagSearchClear, setupUsedTag, deleteTagConfirm, deleteUsedTag } from "./utils/search/tagSearch.js";
 
 //~ Initializing homepage (filling it with all recipes)
 loadAllRecipes()
@@ -70,6 +70,20 @@ function displayTagSearch() {
                 tagSearchArea.style.display = "none"
                 h3Area.style.borderRadius = "11px"
             }
+            
+            /*
+            const tagList = event.currentTarget.parentElement.parentElement.parentElement.children[1].children[1]
+            let foundTags;
+            if (event.currentTarget.classList[0] == 'ingredients') {
+                console.log(event.currentTarget.parentElement.parentElement.parentElement.children[1].children[1])
+                console.log(tagList);
+                foundTags = JSON.parse(localStorage.allIngredients)
+                for (const tag of foundTags) {
+                    const tagListElement = document.createElement('li')
+                    tagListElement.textContent = `${tag}`;
+                    tagList.appendChild(tagListElement)
+                }
+            }*/
         })
     }
 }
@@ -81,7 +95,7 @@ for (const input of tagSearchInputs) {
     input.addEventListener("keydown", tagSearch)
 }
 function eventKeyCheck(eventKey) { //! start again from here to fix display of tag suggestion issue
-    if (eventKey.toLowerCase().match(/^[a-z]{1}/) && eventKey !== 'Backspace') {
+    if (eventKey.toLowerCase().match(/^[a-z]$/) /*&& eventKey !== 'Backspace'*/) { //checking eventKey is only a letter
         return true
     } else {
         return false
@@ -123,10 +137,23 @@ function launchTagSearch(tagSearchInput, type) {
             localStorage.setItem("foundIngredients", JSON.stringify(foundIngredients))
             displaySuggestions(foundIngredients, type)
             break;
-            case "appliance":
-                break;
-            case "ustensils":
-                break;
+        case "appliance":
+
+            break;
+        case "ustensils":
+            let allUstensils = JSON.parse(localStorage.allUstensils)
+            let foundUstensils = [];
+            for (const ustensil of allUstensils) {
+                if (ustensil.toLowerCase().includes(tagSearchInput.toLowerCase())) {
+                    if (!foundUstensils.includes(ustensil)) {
+                        foundUstensils.push(ustensil)
+                        
+                    }
+                }
+            }
+            localStorage.setItem("foundUstensils", JSON.stringify(foundUstensils))
+            displaySuggestions(foundUstensils, type)
+            break;
         default:
             break;
     } 
@@ -137,47 +164,96 @@ function displaySuggestions(result, type) {
     const taglist = tagSearchElement.nextElementSibling
     console.log(tagSearchElement)
     console.log(taglist)
+    // ~ Setting up suggestions & verifying each only shows up once
+    let suggestions;
+    let availableSuggestions = [...taglist.children]
     if (type === 'ingredients') {
-        const suggestions = JSON.parse(localStorage.foundIngredients)
+        suggestions = JSON.parse(localStorage.foundIngredients)
         console.log(suggestions)
         for (const suggestion of suggestions) {
-            const liElement = document.createElement('li')
-            liElement.classList.add(`${type}`)
-            liElement.classList.add('suggestion')
-            liElement.textContent = `${suggestion}`;
-            taglist.append(liElement)
-            liElement.addEventListener("click", recipeTagSorting)
+            if (availableSuggestions.length > 0) {
+                if (availableSuggestions.filter( element => element.firstChild.data /* equals element.textContent*/ == suggestion ).length > 0) {
+                    continue;
+                } else {
+                    const liElement = document.createElement('li')
+                    liElement.classList.add(`${type}`)
+                    liElement.classList.add('suggestion')
+                    liElement.textContent = `${suggestion}`;
+                    taglist.append(liElement)
+                    liElement.addEventListener("click", recipeTagSorting)
+                }  
+            } else {
+                const liElement = document.createElement('li')
+                liElement.classList.add(`${type}`)
+                liElement.classList.add('suggestion')
+                liElement.textContent = `${suggestion}`;
+                taglist.append(liElement)
+                liElement.addEventListener("click", recipeTagSorting)
+            }
+        }
+    } else if (type === 'appliances') {
+        suggestions = JSON.parse(localStorage.foundAppliances)
+        console.log(suggestions)
+        
+    } else if (type === 'ustensils') {
+        suggestions = JSON.parse(localStorage.foundUstensils)
+        console.log(suggestions)
+        for (const suggestion of suggestions) {
+            if (availableSuggestions.length > 0) {
+                if (availableSuggestions.filter( element => element.firstChild.data /* equals element.textContent*/ == suggestion ).length > 0) {
+                    continue;
+                } else {
+                    const liElement = document.createElement('li')
+                    liElement.classList.add(`${type}`)
+                    liElement.classList.add('suggestion')
+                    liElement.textContent = `${suggestion}`;
+                    taglist.append(liElement)
+                    liElement.addEventListener("click", recipeTagSorting)
+                }
+            } else {
+                const liElement = document.createElement('li')
+                liElement.classList.add(`${type}`)
+                liElement.classList.add('suggestion')
+                liElement.textContent = `${suggestion}`;
+                taglist.append(liElement)
+                liElement.addEventListener("click", recipeTagSorting)
+            }
+        }
+    }
+    // ~ Removing suggestions that no longer align with user input
+    const userInput = tagSearchElement.value
+    console.log(userInput);
+    for (const availableSuggestion of availableSuggestions) {
+        if (!availableSuggestion.textContent.toLowerCase().includes(userInput.toLowerCase())) {
+            taglist.removeChild(availableSuggestion)
         }
     }
 }
 //& Sorting remaining recipes
 function recipeTagSorting(event) {
     //~ Adding tag to used tags list
-    const usedTagsList = document.querySelector('.used_tags')
+    //const usedTagsList = document.querySelector('.used_tags')
+    const usedTagsList = event.currentTarget.parentElement.parentElement.nextElementSibling
     const tagToAdd = document.createElement('li')
     tagToAdd.classList.add('used_tag')
     tagToAdd.textContent = `${event.currentTarget.textContent}`;
-    // const deleteTagSpan = document.createElement('span')
     const deleteTagSpan = document.createElement('svg')
-    /*deleteTagSpan.setAttribute('width', "14")
-    deleteTagSpan.setAttribute('height', "13")
-    deleteTagSpan.setAttribute('viewBox', "0 0 14 13")
-    deleteTagSpan.setAttribute('fill', "none")
-    deleteTagSpan.setAttribute('xmlns', "http://www.w3.org/2000/svg")*/
-    // deleteTagSpan.outerHTML = '<svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg" class="testing">\n<path d="M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5" stroke="#1B1B1B" stroke-width="2.16667" stroke-linecap="round" stroke-linejoin="round"></path>\n</svg>'
-    /*deleteTagSpan.classList.add('delete--tag')
-    const path = document.createElement('path')
-    path.setAttribute('d', "M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5")
-    path.setAttribute('stroke', "#1B1B1B")
-    path.setAttribute('stroke-width', "2.16667")
-    path.setAttribute('stroke-linecap', "round")
-    path.setAttribute('stroke-linejoin', "round")*/
-    //! Everything was commented because every element showed properly in the html but the svg was not visible.
-    
-    //deleteTagSpan.appendChild(path)
+    //setupUsedTag(deleteTagSpan)
     tagToAdd.appendChild(deleteTagSpan)
     usedTagsList.appendChild(tagToAdd)
-    deleteTagSpan.outerHTML = "<svg width=\"14\" height=\"13\" viewBox=\"0 0 14 13\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"testing\">\n<path d=\"M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5\" stroke=\"#1B1B1B\" stroke-width=\"2.16667\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n</svg>"
+    deleteTagSpan.outerHTML = "<svg width=\"14\" height=\"13\" viewBox=\"0 0 14 13\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"delete--tag\">\n<path d=\"M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5\" stroke=\"#1B1B1B\" stroke-width=\"2.16667\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n</svg>"
+    //deleteTagSpan.classList.add('delete--tag') //! n'ajoute pas la classe sur l'élément, semble être overridé par outerHTML
+    setupUsedTag(deleteTagSpan)
+    deleteTagSpan.addEventListener("mouseover", deleteTagConfirm)
+    deleteTagSpan.addEventListener("click", deleteUsedTag)
+
+    //! Recreating the svg element to add event listeners on it because ever since outerHTML has been added to the former svg element, adding events is impossible & this, regardless of if events are added before or after outerHTML is used.
+    const sameTagElement = tagToAdd.getElementsByClassName('delete--tag')
+    sameTagElement[0].addEventListener("mouseover", deleteTagConfirm)
+    sameTagElement[0].addEventListener("mouseout", deleteTagConfirm)
+    sameTagElement[0].addEventListener("click", deleteUsedTag)
+    //deleteTagSpan.addEventListener("mouseover", deleteTagConfirm())
+    //deleteTagSpan.addEventListener("click", deleteUsedTag())
 
     //~ Sorting recipes based upon tag selection
     const selected = event.currentTarget.textContent
@@ -186,4 +262,5 @@ function recipeTagSorting(event) {
 
     emptyResultSection()
     loadResults(results)
+    loadRecipeCount(results)
 }

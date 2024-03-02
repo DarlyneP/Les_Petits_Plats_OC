@@ -51,14 +51,65 @@ function sortRecipes(selected, selectedType) {
 
 function tagSearchClear(tagSearchInput, event) {
     //const taglist = tagSearchInput.nextElementSibling
-    const tagList = event.srcElement.nextElementSibling
+    const tagList = [...event.srcElement.nextElementSibling.children]
     //console.log(taglist); // prints undefined
     console.log(tagList);
     for (const tag of tagList) {
-        if (!tag.textContent.includes(tagSearchInput)) {
-            tagList.remove(tag)
+        if (!tag.textContent.toLowerCase().includes(tagSearchInput.toLowerCase())) {
+            tagList.removeChild(tag)
         }
+    }
+    //~ Handling empty input field when backspace has erased everything
+    if (tagSearchInput.length == 0 || !tagSearchInput) {
+        for (const tag of tagList) {
+            tagList.removeChild(tag)
+        } 
     }
 }
 
-export { recipeTagSorting, sortRecipes, tagSearchClear };
+function setupUsedTag(tagElement) {
+    //tagElement.classList.add('delete--tag') //! n'ajoute pas la classe sur l'élément, semble être overridé par outerHTML
+    tagElement.addEventListener("mouseover", deleteTagConfirm)
+    tagElement.addEventListener("mouseout", deleteTagConfirm)
+    tagElement.addEventListener("click", deleteUsedTag)
+}
+
+function deleteTagConfirm(event) {
+    if (event.type == "mouseover") {
+        event.currentTarget.outerHTML = "<svg width=\"17\" height=\"17\" viewBox=\"0 0 17 17\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"delete--tag\">\n<circle cx=\"8.5\" cy=\"8.5\" r=\"8.5\" fill=\"black\"></circle>\n<path d=\"M11 11L8.5 8.5M8.5 8.5L6 6M8.5 8.5L11 6M8.5 8.5L6 11\" stroke=\"#FFD15B\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n</svg>"
+        //event.currentTarget.parentElement.style.fontWeight = "700"
+        //! .currentTarget doesn't let us access the parent element here, so "relatedTarget", as well as "fromElement" can/will be used here instead
+        event.fromElement.style.fontWeight = "700"
+        // todo : add events listeners again because outerHTML suppresses them
+        //const sameTagElement = event.fromElement.getElementsByClassName('delete--tag')
+        const sameTagElement = event.fromElement.querySelector('.delete--tag')
+        event.srcElement.addEventListener("mouseover", deleteTagConfirm)
+        sameTagElement.addEventListener("mouseout", deleteTagConfirm)
+        sameTagElement.addEventListener("click", deleteUsedTag)
+        //sameTagElement[0].addEventListener("mouseout", deleteTagConfirm)
+        //sameTagElement[0].addEventListener("click", deleteUsedTag)
+        //event.currentTarget.classList.add('delete--tag') //! n'ajoute pas la classe sur l'élément, semble être overridé par outerHTML   
+    } else if (event.type == "mouseout") {
+        event.currentTarget.outerHTML = "<svg width=\"14\" height=\"13\" viewBox=\"0 0 14 13\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\" class=\"delete--tag\">\n<path d=\"M12 11.5L7 6.5M7 6.5L2 1.5M7 6.5L12 1.5M7 6.5L2 11.5\" stroke=\"#1B1B1B\" stroke-width=\"2.16667\" stroke-linecap=\"round\" stroke-linejoin=\"round\"></path>\n</svg>"
+        event.fromElement.style.fontWeight = "initial"
+        // todo : add events listeners again because outerHTML suppresses them
+        //const sameTagElement = event.fromElement.getElementsByClassName('delete--tag')
+        const sameTagElement = event.fromElement.querySelector('.delete--tag')
+        event.srcElement.addEventListener("mouseover", deleteTagConfirm)
+        event.srcElement.addEventListener("mouseout", deleteTagConfirm)
+        event.srcElement.addEventListener("click", deleteUsedTag)
+        //event.currentTarget.classList.add('delete--tag') //! n'ajoute pas la classe sur l'élément, semble être overridé par outerHTML
+    }
+}
+
+function deleteUsedTag(event) {
+    const deleteLiElement = event.srcElement
+    console.log(deleteLiElement);
+    const liElement = deleteLiElement.parentElement.parentElement // deleteLiElement.parentNode also works
+    const usedTagsList = liElement.parentElement // deleteLiElement.parentNode also works
+    console.log(liElement);
+    console.log(usedTagsList);
+    usedTagsList.removeChild(liElement)
+}
+
+export { recipeTagSorting, sortRecipes, tagSearchClear, setupUsedTag, deleteTagConfirm, deleteUsedTag };

@@ -193,6 +193,10 @@ main .filters .filter .used_tags .used_tag {
     justify-content: space-between;
 }
 
+main .filters .filter .used_tags .used_tag .delete--tag:hover {
+    cursor: pointer;
+}
+
 main .search-details .total-found {
     padding: 15px;
     font-family: var(--titles);
